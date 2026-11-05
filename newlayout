@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#F4F3EF">
+  <meta name="description" content="Kiln Labs is pioneering the search engine for energy materials discovery.">
+  <meta property="og:title" content="Kiln Labs">
+  <meta property="og:description" content="Kiln Labs is pioneering the search engine for energy materials discovery.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://kilnlabs.studio">
+  <title>Kiln Labs</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --page: #F4F3EF;
+      --ink: #17291F;
+      --muted: #78877B;
+
+      /* Five-color green palette, from near-white to forest */
+      --green-1: #E5EBDD;
+      --green-2: #BDD0B2;
+      --green-3: #8EAD88;
+      --green-4: #527C5B;
+      --green-5: #234A35;
+
+      --font: "Instrument Sans", sans-serif;
+
+      --headline-size: clamp(15px, 2.4vw, 38px);
+      --email-size: clamp(15px, 1.1vw, 18px);
+      --small-size: clamp(15px, 0.85vw, 16px);
+
+      --side: clamp(22px, 4.1vw, 64px);
+      --top: clamp(22px, 4.2vh, 48px);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background: var(--page);
+      color: var(--ink);
+      font-family: var(--font);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    body {
+      min-height: 100svh;
+      min-height: 100dvh;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      min-height: 100svh;
+      min-height: 100dvh;
+      overflow: hidden;
+      isolation: isolate;
+      background: var(--page);
+    }
+
+    /* Full-bleed pixel-art landscape */
+    .background {
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      overflow: hidden;
+      background: var(--page);
+    }
+
+    #landscape {
+      display: block;
+      width: 100%;
+      height: 100%;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+    }
+
+    /* A quiet, flat central field preserves headline readability. */
+    .quiet-area {
+      position: absolute;
+      z-index: -1;
+      left: 14%;
+      top: 25%;
+      width: 72%;
+      height: 43%;
+      background: var(--page);
+      opacity: 0.84;
+      pointer-events: none;
+    }
+
+    /* Wordmark and minimal line-drawn mark */
+    .brand {
+      position: absolute;
+      top: var(--top);
+      left: var(--side);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      white-space: nowrap;
+    }
+
+    .brand-mark {
+      width: clamp(19px, 1.55vw, 24px);
+      height: clamp(24px, 1.9vw, 29px);
+      display: block;
+    }
+
+    .wordmark {
+      font-size: clamp(16px, 1.15vw, 19px);
+      line-height: 1;
+      font-weight: 500;
+      letter-spacing: -0.055em;
+    }
+
+    /* Live counters */
+    .top-right {
+      position: absolute;
+      top: var(--top);
+      right: var(--side);
+      display: flex;
+      align-items: flex-start;
+      gap: clamp(15px, 1.6vw, 26px);
+    }
+
+    .counters {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 8px;
+    }
+
+    .counter {
+      display: grid;
+      grid-template-columns: auto auto auto;
+      align-items: baseline;
+      justify-content: end;
+      column-gap: 5px;
+      white-space: nowrap;
+      font-size: var(--small-size);
+      line-height: 1.2;
+      font-weight: 400;
+      letter-spacing: -0.025em;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .counter-label {
+      color: var(--muted);
+      margin-right: 5px;
+    }
+
+    .counter-whole {
+      color: var(--ink);
+    }
+
+    .counter-decimal {
+      color: #89948B;
+      margin-left: -5px;
+    }
+
+    .counter-unit {
+      color: var(--muted);
+      font-size: 0.86em;
+      margin-left: 2px;
+    }
+
+    .help-link {
+      width: 19px;
+      height: 19px;
+      border: 1px solid var(--ink);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      line-height: 1;
+      margin-top: 1px;
+      transition: opacity 160ms ease;
+    }
+
+    .help-link:hover {
+      opacity: 0.55;
+    }
+
+    /* Centered headline */
+    .hero {
+      position: absolute;
+      top: 39.5%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(78vw, 1120px);
+      text-align: center;
+    }
+
+    h1 {
+      margin: 0 auto;
+      max-width: 29em;
+      font-size: var(--headline-size);
+      line-height: 1.05;
+      font-weight: 400;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+      text-wrap: balance;
+    }
+
+    .email {
+      display: inline-block;
+      margin-top: clamp(28px, 7.5vh, 76px);
+      padding-bottom: 3px;
+      border-bottom: 1px solid var(--ink);
+      font-size: var(--email-size);
+      line-height: 1.2;
+      font-weight: 400;
+      letter-spacing: -0.025em;
+      transition: opacity 160ms ease;
+    }
+
+    .email:hover {
+      opacity: 0.55;
+    }
+
+    /* Bottom-right social links */
+    .footer {
+      position: absolute;
+      right: var(--side);
+      bottom: max(var(--top), env(safe-area-inset-bottom));
+      display: flex;
+      align-items: center;
+      gap: 17px;
+      font-size: var(--small-size);
+      line-height: 1;
+      font-weight: 400;
+      letter-spacing: -0.025em;
+    }
+
+    .footer a {
+      transition: opacity 160ms ease;
+    }
+
+    .footer a:hover {
+      opacity: 0.5;
+    }
+
+    @media (max-width: 700px) {
+      :root {
+        --side: max(22px, env(safe-area-inset-left));
+        --top: max(22px, env(safe-area-inset-top));
+        --headline-size: clamp(27px, 7.8vw, 39px);
+        --email-size: 15px;
+        --small-size: 15px;
+      }
+
+      .quiet-area {
+        left: 0;
+        top: 29%;
+        width: 100%;
+        height: 40%;
+        opacity: 0.91;
+      }
+
+      .brand {
+        top: var(--top);
+        left: var(--side);
+      }
+
+      .top-right {
+        top: calc(var(--top) + 45px);
+        left: var(--side);
+        right: auto;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      .counters {
+        align-items: flex-start;
+        gap: 5px;
+      }
+
+      .counter {
+        justify-content: start;
+        font-size: 12px;
+      }
+
+      .help-link {
+        width: 17px;
+        height: 17px;
+        font-size: 11px;
+      }
+
+      .hero {
+        top: 40%;
+        width: calc(100% - 44px);
+      }
+
+      h1 {
+        max-width: 18em;
+        line-height: 1.08;
+      }
+
+      .email {
+        margin-top: clamp(28px, 7vh, 48px);
+      }
+
+      .footer {
+        right: var(--side);
+        bottom: max(23px, env(safe-area-inset-bottom));
+        gap: 14px;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .hero {
+        top: 39%;
+      }
+
+      h1 {
+        font-size: 27px;
+      }
+
+      .counter {
+        font-size: 11px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+
+    <div class="background" aria-hidden="true">
+      <canvas id="landscape"></canvas>
+    </div>
+
+    <div class="quiet-area" aria-hidden="true"></div>
+
+    <header class="brand">
+      <svg class="brand-mark" viewBox="0 0 28 34" fill="none"
+           xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M14 2.5C14 2.5 4 13.1 4 21.2C4 27 8.3 31.5 14 31.5C19.7 31.5 24 27 24 21.2C24 13.1 14 2.5 14 2.5Z"
+              stroke="#17291F" stroke-width="1.35" stroke-linecap="round"
+              stroke-linejoin="round"/>
+        <path d="M14 12.5C11.1 16 9.7 19 9.7 21.8C9.7 24.2 11.6 26.1 14 26.1"
+              stroke="#17291F" stroke-width="1.1" stroke-linecap="round"/>
+      </svg>
+      <span class="wordmark">Kiln Labs</span>
+    </header>
+
+    <div class="top-right">
+      <section class="counters" aria-label="Kiln Labs activity">
+        <div class="counter">
+          <span class="counter-label">Materials screened</span>
+          <span class="counter-whole" data-whole="screened">128450</span>
+          <span class="counter-decimal" data-decimal="screened">.000000</span>
+          <span class="counter-unit">materials</span>
+        </div>
+
+        <div class="counter">
+          <span class="counter-label">Candidates ranked</span>
+          <span class="counter-whole" data-whole="ranked">18420</span>
+          <span class="counter-decimal" data-decimal="ranked">.000000</span>
+          <span class="counter-unit">candidates</span>
+        </div>
+
+        <div class="counter">
+          <span class="counter-label">Materials discovered</span>
+          <span class="counter-whole" data-whole="discovered">124</span>
+          <span class="counter-decimal" data-decimal="discovered">.000000</span>
+          <span class="counter-unit">materials</span>
+        </div>
+      </section>
+
+      <a class="help-link" href="mailto:hello@kilnlabs.studio?subject=Kiln%20Labs"
+         aria-label="Contact Kiln Labs">?</a>
+    </div>
+
+    <section class="hero">
+      <h1>Kiln Labs is pioneering the search engine for energy materials discovery.</h1>
+      <a class="email" href="mailto:hello@kilnlabs.studio">hello@kilnlabs.studio</a>
+    </section>
+
+    <footer class="footer">
+      <a href="https://x.com/" target="_blank" rel="noopener noreferrer">X</a>
+      <a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    </footer>
+
+  </main>
+
+  <script>
+    /* =========================================================
+       KILN LABS CONFIGURATION
+       Replace starting values and rates with verified data.
+       Rates are added per second.
+       ========================================================= */
+
+    const CONFIG = {
+      counters: {
+        screened: {
+          start: 128450,
+          ratePerSecond: 0.42
+        },
+        ranked: {
+          start: 18420,
+          ratePerSecond: 0.08
+        },
+        discovered: {
+          start: 124,
+          ratePerSecond: 0.001
+        }
+      },
+
+      // Rotation speed in radians per second.
+      rotationSpeed: 0.055,
+
+      // Low-resolution drawing dimensions.
+      renderWidth: 480,
+      renderHeight: 270,
+
+      // Animation refresh rate.
+      fps: 30
+    };
+
+    /* =========================================================
+       COUNTER ANIMATION
+       ========================================================= */
+
+    const counterStart = performance.now();
+    const reducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    function updateCounters(now) {
+      const elapsed = (now - counterStart) / 1000;
+
+      for (const [key, settings] of Object.entries(CONFIG.counters)) {
+        const value = settings.start + settings.ratePerSecond * elapsed;
+        const whole = Math.floor(value);
+        const decimals = (value - whole).toFixed(6).slice(1);
+
+        document.querySelector(`[data-whole="${key}"]`).textContent =
+          whole.toLocaleString("en-US");
+
+        document.querySelector(`[data-decimal="${key}"]`).textContent =
+          decimals;
+      }
+    }
+
+    /* =========================================================
+       PIXELATED LANDSCAPE + ORDERED BAYER DITHERING
+       ========================================================= */
+
+    const canvas = document.getElementById("landscape");
+    const ctx = canvas.getContext("2d", { alpha: false });
+
+    const W = CONFIG.renderWidth;
+    const H = CONFIG.renderHeight;
+
+    const scene = document.createElement("canvas");
+    scene.width = W;
+    scene.height = H;
+
+    const sceneCtx = scene.getContext("2d", { alpha: false });
+    const frame = sceneCtx.createImageData(W, H);
+    const output = frame.data;
+
+    // Five green tones, near-white to deep forest.
+    const palette = [
+      [229, 235, 221],
+      [189, 208, 178],
+      [142, 173, 136],
+      [82, 124, 91],
+      [35, 74, 53]
+    ];
+
+    // 4 x 4 Bayer ordered dithering matrix.
+    const bayer = [
+      [0,  8,  2, 10],
+      [12, 4, 14, 6],
+      [3, 11, 1,  9],
+      [15, 7, 13, 5]
+    ];
+
+    function luminance(color) {
+      return 0.2126 * color[0] +
+             0.7152 * color[1] +
+             0.0722 * color[2];
+    }
+
+    const paletteLuminance = palette.map(luminance);
+
+    const molecules = [
+      { x: 0.65, y: 0.28, r: 20, phase: 0.2 },
+      { x: 0.78, y: 0.51, r: 15, phase: 1.1 },
+      { x: 0.91, y: 0.28, r: 24, phase: 2.3 },
+      { x: 0.70, y: 0.70, r: 13, phase: 0.8 },
+      { x: 0.88, y: 0.75, r: 18, phase: 2.8 }
+    ];
+
+    function drawHexagon(g, x, y, radius, rotation) {
+      const points = [];
+
+      for (let i = 0; i < 6; i++) {
+        const angle = rotation + i * Math.PI / 3;
+        points.push([
+          x + Math.cos(angle) * radius,
+          y + Math.sin(angle) * radius
+        ]);
+      }
+
+      // Hexagonal bonds.
+      g.strokeStyle = "#234A35";
+      g.lineWidth = 1.35;
+      g.beginPath();
+
+      points.forEach((point, i) => {
+        const next = points[(i + 1) % 6];
+        g.moveTo(point[0], point[1]);
+        g.lineTo(next[0], next[1]);
+      });
+
+      // Internal bonds.
+      for (let i = 0; i < 6; i += 2) {
+        g.moveTo(points[i][0], points[i][1]);
+        g.lineTo(x, y);
+      }
+
+      g.stroke();
+
+      // Atom nodes.
+      points.forEach((point, i) => {
+        g.fillStyle = i % 2 === 0 ? "#527C5B" : "#234A35";
+        g.beginPath();
+        g.arc(point[0], point[1], 2.5, 0, Math.PI * 2);
+        g.fill();
+      });
+
+      g.fillStyle = "#234A35";
+      g.beginPath();
+      g.arc(x, y, 2.8, 0, Math.PI * 2);
+      g.fill();
+    }
+
+    function drawCrystal(g, x, y, size, rotation) {
+      g.save();
+      g.translate(x, y);
+      g.rotate(rotation);
+
+      const rows = 3;
+      const columns = 4;
+      const spacingX = size * 0.72;
+      const spacingY = size * 0.64;
+
+      g.strokeStyle = "#527C5B";
+      g.lineWidth = 1;
+
+      for (let row = 0; row < rows; row++) {
+        for (let col = 0; col < columns; col++) {
+          const px = (col - 1.5) * spacingX +
+                     (row % 2) * spacingX * 0.5;
+          const py = (row - 1) * spacingY;
+
+          const points = [];
+          for (let i = 0; i < 6; i++) {
+            const angle = i * Math.PI / 3;
+            points.push([
+              px + Math.cos(angle) * size * 0.27,
+              py + Math.sin(angle) * size * 0.27
+            ]);
+          }
+
+          g.beginPath();
+          points.forEach((point, i) => {
+            if (i === 0) g.moveTo(point[0], point[1]);
+            else g.lineTo(point[0], point[1]);
+          });
+          g.closePath();
+          g.stroke();
+
+          g.fillStyle = "#527C5B";
+          g.beginPath();
+          g.arc(px, py, 2, 0, Math.PI * 2);
+          g.fill();
+        }
+      }
+
+      g.restore();
+    }
+
+    function drawHills(g) {
+      // Distant hill range.
+      g.fillStyle = "#E5EBDD";
+      g.beginPath();
+      g.moveTo(0, H * 0.60);
+
+      for (let x = 0; x <= W; x += 8) {
+        const y = H * 0.57 +
+          Math.sin(x * 0.012 + 1.2) * 12 +
+          Math.sin(x * 0.026) * 5;
+        g.lineTo(x, y);
+      }
+
+      g.lineTo(W, H);
+      g.lineTo(0, H);
+      g.closePath();
+      g.fill();
+
+      // Middle hills.
+      g.fillStyle = "#BDD0B2";
+      g.beginPath();
+      g.moveTo(0, H * 0.78);
+
+      for (let x = 0; x <= W; x += 8) {
+        const y = H * 0.73 +
+          Math.sin(x * 0.009 + 2.1) * 16 +
+          Math.sin(x * 0.022 + 0.7) * 6;
+        g.lineTo(x, y);
+      }
+
+      g.lineTo(W, H);
+      g.lineTo(0, H);
+      g.closePath();
+      g.fill();
+
+      // Foreground valley.
+      g.fillStyle = "#8EAD88";
+      g.beginPath();
+      g.moveTo(0, H * 0.91);
+
+      for (let x = 0; x <= W; x += 8) {
+        const y = H * 0.86 +
+          Math.sin(x * 0.011 + 0.6) * 9 +
+          Math.sin(x * 0.019) * 5;
+        g.lineTo(x, y);
+      }
+
+      g.lineTo(W, H);
+      g.lineTo(0, H);
+      g.closePath();
+      g.fill();
+    }
+
+    function drawScene(seconds) {
+      const g = sceneCtx;
+      const t = seconds * CONFIG.rotationSpeed;
+
+      g.fillStyle = "#E5EBDD";
+      g.fillRect(0, 0, W, H);
+
+      drawHills(g);
+
+      // Molecules stay toward the edges, leaving the center quiet.
+      molecules.forEach((m, i) => {
+        const phase = t * (i % 2 === 0 ? 0.24 : -0.19) + m.phase;
+        const x = W * m.x + Math.cos(phase) * 4;
+        const y = H * m.y + Math.sin(phase * 0.7) * 5;
+        const rotation = phase * 0.65;
+
+        drawHexagon(g, x, y, m.r, rotation);
+      });
+
+      drawCrystal(g, W * 0.82, H * 0.54, 23, t * 0.13);
+      drawCrystal(g, W * 0.94, H * 0.14, 15, -t * 0.09);
+    }
+
+    function applyDithering() {
+      const source = sceneCtx.getImageData(0, 0, W, H).data;
+
+      for (let y = 0; y < H; y++) {
+        for (let x = 0; x < W; x++) {
+          const i = (y * W + x) * 4;
+          const threshold = (bayer[y & 3][x & 3] / 16 - 0.5) * 24;
+
+          const lum = luminance([
+            source[i],
+            source[i + 1],
+            source[i + 2]
+          ]) + threshold;
+
+          let nearest = 0;
+          let smallestDistance = Infinity;
+
+          for (let p = 0; p < palette.length; p++) {
+            const distance = Math.abs(lum - paletteLuminance[p]);
+
+            if (distance < smallestDistance) {
+              smallestDistance = distance;
+              nearest = p;
+            }
+          }
+
+          const color = palette[nearest];
+
+          output[i] = color[0];
+          output[i + 1] = color[1];
+          output[i + 2] = color[2];
+          output[i + 3] = 255;
+        }
+      }
+
+      sceneCtx.putImageData(frame, 0, 0);
+    }
+
+    function resize() {
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+
+      canvas.width = Math.round(window.innerWidth * dpr);
+      canvas.height = Math.round(window.innerHeight * dpr);
+
+      ctx.imageSmoothingEnabled = false;
+    }
+
+    let lastFrame = 0;
+    const frameInterval = 1000 / CONFIG.fps;
+
+    function render(now) {
+      if (now - lastFrame < frameInterval) {
+        requestAnimationFrame(render);
+        return;
+      }
+
+      lastFrame = now;
+
+      updateCounters(now);
+
+      drawScene(reducedMotion ? 0 : now / 1000);
+      applyDithering();
+
+      ctx.imageSmoothingEnabled = false;
+      ctx.drawImage(scene, 0, 0, canvas.width, canvas.height);
+
+      if (!reducedMotion) {
+        requestAnimationFrame(render);
+      }
+    }
+
+    resize();
+    window.addEventListener("resize", resize, { passive: true });
+
+    if (reducedMotion) {
+      updateCounters(counterStart);
+      drawScene(0);
+      applyDithering();
+      ctx.imageSmoothingEnabled = false;
+      ctx.drawImage(scene, 0, 0, canvas.width, canvas.height);
+    } else {
+      requestAnimationFrame(render);
+    }
+  </script>
+</body>
+</html>
