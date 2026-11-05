@@ -1,0 +1,20 @@
+import AeroShards from './AeroShards';
+
+<div style={{ width: '100%', height: '600px', position: 'relative' }}>
+  <AeroShards
+    shardColor="#32ca17"
+    accentColor="#2b7b0c"
+    placement="full"
+    material="glass"
+    markers="plus"
+    count={1300}
+    depthOfField={0.75}
+    vignette={0.3}
+    mouseInteraction
+    pulseOnClick
+    holdToGather
+    speed={2.52}
+    glow={0.55}
+    lightMode
+/>
+</div>
